@@ -26,8 +26,6 @@ GreenMLOptimizer to narzędzie mające na celu optymalizację treningu modeli uc
 - Power capping: Wdrażanie technologii ograniczania mocy dla GPU/TPU.
 - Efektywne wykorzystanie komponentów: Automatyczne wykrywanie nieużywanych komponentów i przełączanie ich w tryb oszczędzania energii.
 
----
-
 ## Etapy działania algorytmu
 
 #### 1. Inicjalizacja
@@ -64,14 +62,10 @@ $$
 - Powtarzanie cyklu treningowego z ciągłą adaptacją parametrów.
 - Monitorowanie zużycia energii do momentu osiągnięcia założonej dokładności lub limitu energetycznego.
 
----
-
 ## Przykłady zastosowań
 - **Edge Computing**: Optymalizacja treningu modeli na urządzeniach o ograniczonych zasobach energetycznych.
 - **Centra danych**: Redukcja kosztów operacyjnych oraz śladu węglowego w dużych systemach obliczeniowych.
 - **Trening w czasie rzeczywistym**: Umożliwienie treningu na urządzeniach zasilanych bateryjnie przy zachowaniu optymalnej wydajności energetycznej.
-
----
 
 ## Możliwości rozwoju
 - **Rozszerzenie integracji**: Dodanie wsparcia dla kolejnych narzędzi monitorujących oraz urządzeń. 
@@ -79,15 +73,12 @@ $$
 - **Wsparcie dla nowych architektur**: Rozbudowa narzędzia o możliwość pracy z nowoczesnymi architekturami, np. modelami transformers. 
 - **Dashboard wizualizacyjny**: Utworzenie interaktywnego interfejsu do monitorowania wyników treningu i zużycia energii.
 
----
 
 ## Wskazówki dla użytkowników
 - **Instalacja**: Upewnij się, że posiadasz niezbędne narzędzia i sterowniki (np. NVIDIA nvidia-smi) do monitorowania sprzętu. 
 - **Konfiguracja**: Skonfiguruj pliki konfiguracyjne (np. YAML/JSON) zgodnie z wymaganiami Twojego środowiska.
 - **Eksperymenty**: Rozpocznij od testów profilowych (kilka epok) i analizuj wyniki, aby dobrać optymalne ustawienia.
 - **Dokumentacja**: Regularnie przeglądaj dokumentację oraz dzienniki systemowe, co pomoże w diagnozowaniu ewentualnych problemów.
-
----
 
 ## Podsumowanie
 
