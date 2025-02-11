@@ -1,82 +1,95 @@
-### GreenMLOptimizer
+# GreenMLOptimizer
+
+GreenMLOptimizer to narzędzie mające na celu optymalizację treningu modeli uczenia maszynowego pod kątem zużycia energii, co przekłada się na obniżenie kosztów operacyjnych oraz zmniejszenie śladu węglowego. Projekt łączy w sobie monitorowanie parametrów sprzętowych, dynamiczną adaptację hiperparametrów oraz profilowanie modeli, aby umożliwić świadome zarządzanie zasobami obliczeniowymi.
 
 ---
 
-#### **Założenia**
+## Główne funkcjonalności
 
-##### **Monitorowanie zużycia energii**
-- Rejestrowanie zużycia energii w czasie rzeczywistym dla sprzętu (GPU/CPU/TPU).
-- Uwzględnienie metryk, takich jak:
-  - Czas wykonania.
-  - Zużycie energii (w Watach).
+### 1. Monitorowanie zużycia energii
+- Rejestrowanie w czasie rzeczywistym: Monitorowanie zużycia energii na poziomie GPU, CPU oraz TPU.
+- Zbieranie kluczowych metryk:
+  - Czas wykonania, 
+  - Zużycie energii (w watach), 
   - Emisja ciepła.
+- Integracja z narzędziami sprzętowymi: Wykorzystanie takich narzędzi jak NVIDIA nvidia-smi czy PowerAPI do pobierania danych.
 
-##### **Dynamiczna optymalizacja**
-- Adaptacyjna modyfikacja hiperparametrów w trakcie uczenia w celu minimalizacji zużycia energii.
-- Wybór bardziej energooszczędnych architektur modeli ML.
+### 2. Dynamiczna optymalizacja treningu
+- Adaptacyjna zmiana hiperparametrów: Automatyczna modyfikacja parametrów treningowych (np. learning rate, batch size) w trakcie treningu w celu minimalizacji zużycia energii.
+- Wybór energooszczędnych architektur: Możliwość przełączania się na alternatywne, mniej zasobożerne modele lub metody (np. SVM w przypadku małych zbiorów danych).
 
-##### **Profilowanie modelu**
-- Analiza wpływu:
-  - Rozmiaru danych.
-  - Architektury modelu.
-  - Złożoności obliczeniowej na zużycie energii.
+### 3. Profilowanie modelu
+- Analiza wpływu parametrów: Ocena, jak rozmiar danych, architektura modelu oraz złożoność obliczeniowa wpływają na zużycie energii.
+- Próbne treningi: Wykonywanie serii próbnych epok (np. 10 epok) w celu zebrania danych o zużyciu energii, czasie treningu i dokładności modelu.
 
----
-
-#### **Etapy algorytmu**
-
-##### **1. Inicjalizacja**
-1. Zdefiniuj model ML do trenowania.
-2. Ustaw początkowe hiperparametry, takie jak:
-   - Learning rate.
-   - Rozmiar batcha (*batch size*).
-3. Określ priorytety energetyczne (np. maksymalne dopuszczalne zużycie energii).
-
-##### **2. Profilowanie energetyczne**
-1. Wykonaj próbne iteracje (np. 10 epok) z wybranymi ustawieniami.
-2. Rejestruj metryki:
-   - Zużycie energii na epokę.
-   - Czas treningu.
-   - Dokładność modelu.
-
-##### **3. Analiza i redukcja energii**
-Na podstawie uzyskanych danych:
-- **Zwiększ batch size**: Zmniejszenie liczby kroków uczenia obniża komunikację między procesorami.
-- **Zmniejsz częstotliwość operacji**: Wybierz niższe częstotliwości taktowania GPU/TPU.
-- **Przytnij model** (*pruning*): Usuń nieistotne parametry lub warstwy.
-- **Kwantyzacja**: Zmień typy danych (np. `float32 → int8`), aby obniżyć koszty obliczeń.
-- **Zastosuj algorytmy regularizacji** (np. dropout), aby uniknąć zbędnego przetrenowania.
-
-##### **4. Dynamiczna adaptacja hiperparametrów**
-- Stosuj algorytmy optymalizacji adaptacyjnej, takie jak:
-  - AdaGrad.
-  - AdamW.
-- Po każdej epoce oblicz współczynnik energooszczędności:
-  \[
-  \text{Efficiency} = \frac{\text{Accuracy Improvement}}{\text{Energy Consumed}}
-  \]
-- Jeśli efektywność jest niska:
-  - Dostosuj *learning rate*.
-  - Przeanalizuj możliwość użycia modeli o niższej złożoności (np. SVM zamiast sieci neuronowych w przypadku małych zbiorów danych).
-
-##### **5. Zarządzanie zasobami sprzętowymi**
-- Wykorzystaj technologię **power capping** (ograniczenie mocy na GPU/TPU).
-- Wykrywaj nieużywane komponenty i wprowadzaj je w stan uśpienia.
-
-##### **6. Iteracyjny trening i ewaluacja**
-- Powtarzaj cykl treningu z adaptacją hiperparametrów.
-- Mierz zużycie energii na epokę, aż do osiągnięcia:
-  - Pożądanej dokładności.
-  - Lub przekroczenia zdefiniowanego limitu energii.
+### 4. Zarządzanie zasobami sprzętowymi
+- Power capping: Wdrażanie technologii ograniczania mocy dla GPU/TPU.
+- Efektywne wykorzystanie komponentów: Automatyczne wykrywanie nieużywanych komponentów i przełączanie ich w tryb oszczędzania energii.
 
 ---
 
-#### **Przykłady zastosowań**
-- Trenowanie modeli ML na sprzęcie o ograniczonych zasobach energetycznych (np. edge computing).
-- Redukcja kosztów operacyjnych i śladu węglowego w dużych centrach danych.
-- Zastosowania w real-time training na urządzeniach zasilanych bateryjnie.
+## Etapy działania algorytmu
 
-#### **Możliwości rozwoju**
-- Integracja z monitorowaniem sprzętowym w czasie rzeczywistym (np. NVIDIA `nvidia-smi`, PowerAPI).
-- Implementacja zaawansowanych metod kwantyzacji i przycinania.
-- Rozszerzenie na bardziej złożone architektury (np. modele transformers).
+#### 1. Inicjalizacja
+- Wybór modelu ML oraz ustawienie początkowych hiperparametrów (np. learning rate, batch size).
+- Definicja limitów energetycznych i ustalenie priorytetów dotyczących zużycia energii.
+
+#### 2. Profilowanie energetyczne
+- Przeprowadzenie serii próbnych iteracji (np. 10 epok) w celu zebrania metryk:
+  - Zużycie energii na epokę, 
+  - Czas treningu, 
+  - Dokładność modelu.
+
+#### 3. Analiza i redukcja zużycia energii
+- Na podstawie zebranych danych:
+  - Zwiększenie batch size w celu redukcji liczby kroków treningowych. 
+  - Dostosowanie częstotliwości operacji (np. obniżenie taktowania GPU/TPU). 
+  - Wdrożenie technik przycinania (pruning) oraz kwantyzacji (np. zmiana float32 → int8). 
+  - Zastosowanie algorytmów regularizacji (np. dropout) w celu uniknięcia przetrenowania.
+
+#### 4. Dynamiczna adaptacja hiperparametrów
+- Użycie algorytmów optymalizacyjnych (np. AdaGrad, AdamW).
+- Po każdej epoce obliczanie współczynnika efektywności energetycznej:
+$$
+\text{Efektywność} = \frac{\text{Przyrost Dokładności}}{\text{Zużycie Energii}}
+$$
+
+    **Gdzie:**
+  - **Przyrost Dokładności** – miara poprawy dokładności modelu po każdej epoce.
+  - **Zużycie Energii** – ilość energii zużytej podczas treningu modelu.
+
+- W przypadku niskiej efektywności – dostosowanie hiperparametrów lub zmiana modelu.
+
+#### 5. Iteracyjny trening i ewaluacja
+- Powtarzanie cyklu treningowego z ciągłą adaptacją parametrów.
+- Monitorowanie zużycia energii do momentu osiągnięcia założonej dokładności lub limitu energetycznego.
+
+---
+
+## Przykłady zastosowań
+- **Edge Computing**: Optymalizacja treningu modeli na urządzeniach o ograniczonych zasobach energetycznych.
+- **Centra danych**: Redukcja kosztów operacyjnych oraz śladu węglowego w dużych systemach obliczeniowych.
+- **Trening w czasie rzeczywistym**: Umożliwienie treningu na urządzeniach zasilanych bateryjnie przy zachowaniu optymalnej wydajności energetycznej.
+
+---
+
+## Możliwości rozwoju
+- **Rozszerzenie integracji**: Dodanie wsparcia dla kolejnych narzędzi monitorujących oraz urządzeń. 
+- **Zaawansowane metody optymalizacji**: Implementacja nowych technik kwantyzacji, przycinania modeli oraz adaptacyjnych algorytmów optymalizacyjnych.
+- **Wsparcie dla nowych architektur**: Rozbudowa narzędzia o możliwość pracy z nowoczesnymi architekturami, np. modelami transformers. 
+- **Dashboard wizualizacyjny**: Utworzenie interaktywnego interfejsu do monitorowania wyników treningu i zużycia energii.
+
+---
+
+## Wskazówki dla użytkowników
+- **Instalacja**: Upewnij się, że posiadasz niezbędne narzędzia i sterowniki (np. NVIDIA nvidia-smi) do monitorowania sprzętu. 
+- **Konfiguracja**: Skonfiguruj pliki konfiguracyjne (np. YAML/JSON) zgodnie z wymaganiami Twojego środowiska.
+- **Eksperymenty**: Rozpocznij od testów profilowych (kilka epok) i analizuj wyniki, aby dobrać optymalne ustawienia.
+- **Dokumentacja**: Regularnie przeglądaj dokumentację oraz dzienniki systemowe, co pomoże w diagnozowaniu ewentualnych problemów.
+
+---
+
+## Podsumowanie
+
+GreenMLOptimizer to projekt dedykowany optymalizacji treningu modeli ML z myślą o efektywności energetycznej. Dzięki dynamicznej adaptacji hiperparametrów, zaawansowanemu profilowaniu oraz integracji z narzędziami monitorującymi, narzędzie to może znacząco przyczynić się do obniżenia kosztów operacyjnych oraz zmniejszenia wpływu na środowisko.
+Projekt jest ciągle rozwijany – zapraszamy do współpracy, zgłaszania uwag i propozycji rozwoju!
